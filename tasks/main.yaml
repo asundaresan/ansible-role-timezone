@@ -11,8 +11,8 @@
   notify: 
     - reset timezone
   when: not timezone_file.stat.exists and time_zone is defined 
-- name: Set timezone to UTC
-  copy: content="UTC" dest=/etc/timezone 
+- name: Set timezone to PDT
+  copy: content="PDT" dest=/etc/timezone 
   notify: 
     - reset timezone
   when: not timezone_file.stat.exists and not time_zone is defined 
