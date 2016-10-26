@@ -1,3 +1,4 @@
-- name: reset timezone
+- name: timedatectl set-timezone
   command: bash -c "timedatectl set-timezone `cat /etc/timezone`"
-
+- name: dpkg-reconfigure tzdata 
+  command: dpkg-reconfigure --frontend noninteractive tzdata

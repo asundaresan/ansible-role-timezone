@@ -1,18 +1,21 @@
 - local_action: stat path=/etc/timezone
   register: timezone_file
   become: no
-- name: Copy timezone file
+- name: copy timezone file
   copy: src=/etc/timezone dest=/etc/timezone 
   notify: 
-    - reset timezone
+    - timedatectl set-timezone
+    - dpkg-reconfigure tzdata
   when: timezone_file.stat.exists
 - name: Create timezone from variable
   copy: content={{ time_zone }} dest=/etc/timezone 
   notify: 
-    - reset timezone
+    - timedatectl set-timezone
+    - dpkg-reconfigure tzdata
   when: not timezone_file.stat.exists and time_zone is defined 
 - name: Set timezone to PDT
   copy: content="PDT" dest=/etc/timezone 
   notify: 
-    - reset timezone
+    - timedatectl set-timezone
+    - dpkg-reconfigure tzdata
   when: not timezone_file.stat.exists and not time_zone is defined 
